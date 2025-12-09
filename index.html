@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Transform Your Life · Habit & Recovery Companion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Transform Your Life is a gentle, science-based companion for changing habits, healing from compulsive behaviors, and building a meaningful life."
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-logo">🌱</div>
+        <div class="brand-text">
+          <h1>Transform Your Life</h1>
+          <p class="tagline">Tiny steps. No shame. Real change.</p>
+        </div>
+      </div>
+      <nav id="main-nav" class="main-nav hidden">
+        <button data-view="today" class="nav-btn nav-btn-active">Today</button>
+        <button data-view="journeys" class="nav-btn">Journeys</button>
+        <button data-view="journal" class="nav-btn">Journal</button>
+        <button data-view="stats" class="nav-btn">Stats</button>
+        <button data-view="settings" class="nav-btn">Settings</button>
+      </nav>
+    </header>
+
+    <!-- ONBOARDING -->
+    <main id="onboarding" class="panel active">
+      <section class="card">
+        <h2>Welcome 👋</h2>
+        <p>
+          This space is for freeing yourself from compulsive habits,
+          rebuilding self-respect, and living by your values — at your pace,
+          without shame.
+        </p>
+        <form id="onboarding-form">
+          <!-- STEP 1: Focus -->
+          <div class="onboarding-step" data-step="1">
+            <h3>1. What brings you here?</h3>
+            <p class="hint">You can change this later.</p>
+            <div class="pill-group">
+              <label class="pill">
+                <input type="radio" name="primary_focus" value="break_habit" required />
+                <span>Break a compulsive habit</span>
+              </label>
+              <label class="pill">
+                <input type="radio" name="primary_focus" value="build_habits" />
+                <span>Build healthy habits</span>
+              </label>
+              <label class="pill">
+                <input type="radio" name="primary_focus" value="find_direction" />
+                <span>Find meaning & direction</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- STEP 2: Paths -->
+          <div class="onboarding-step hidden" data-step="2">
+            <h3>2. Which areas matter most right now?</h3>
+            <p class="hint">Pick 1–3 to start. You can add more later.</p>
+            <div class="pill-group multi">
+              <label class="pill">
+                <input type="checkbox" name="paths" value="body" />
+                <span>Body · Health & Energy</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" name="paths" value="mind" />
+                <span>Mind · Focus & Calm</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" name="paths" value="heart" />
+                <span>Heart · Emotions & Healing</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" name="paths" value="spirit" />
+                <span>Spirit · Meaning & Depth</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" name="paths" value="relationships" />
+                <span>Relationships & Connection</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" name="paths" value="purpose" />
+                <span>Purpose, Work & Study</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- STEP 3: Identity & Values -->
+          <div class="onboarding-step hidden" data-step="3">
+            <h3>3. Who are you becoming?</h3>
+            <label class="field">
+              <span>Short identity statement</span>
+              <input
+                type="text"
+                name="identity_statement"
+                maxlength="160"
+                placeholder='E.g. "I am becoming a calm, disciplined and compassionate person."'
+                required
+              />
+            </label>
+
+            <label class="field">
+              <span>Core values (comma separated)</span>
+              <input
+                type="text"
+                name="values"
+                maxlength="160"
+                placeholder="Family, honesty, growth, faith, creativity..."
+              />
+            </label>
+          </div>
+
+          <!-- STEP 4: Tiny habit -->
+          <div class="onboarding-step hidden" data-step="4">
+            <h3>4. Let’s start tiny — too small to fail</h3>
+            <p class="hint">
+              Pick one tiny daily action. On days when you’re tired, even this tiny version counts.
+            </p>
+
+            <label class="field">
+              <span>Tiny habit</span>
+              <input
+                type="text"
+                name="tiny_habit"
+                maxlength="120"
+                placeholder="E.g. 2 deep breaths before unlocking my phone"
+                required
+              />
+            </label>
+
+            <label class="field">
+              <span>Which path does this support?</span>
+              <select name="tiny_habit_path" required>
+                <option value="">Choose a path</option>
+                <option value="body">Body · Health & Energy</option>
+                <option value="mind">Mind · Focus & Calm</option>
+                <option value="heart">Heart · Emotions & Healing</option>
+                <option value="spirit">Spirit · Meaning & Depth</option>
+                <option value="relationships">Relationships & Connection</option>
+                <option value="purpose">Purpose, Work & Study</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button type="button" id="onboarding-back" class="btn-secondary hidden">
+              Back
+            </button>
+            <button type="button" id="onboarding-next" class="btn-primary">
+              Next
+            </button>
+            <button type="submit" id="onboarding-finish" class="btn-primary hidden">
+              Save & enter app
+            </button>
+          </div>
+        </form>
+
+        <p class="safety-note">
+          This app is a self-help companion, not medical or emergency care.  
+          If you feel at risk of harming yourself or others, please contact local emergency services or a trusted professional immediately.
+        </p>
+      </section>
+    </main>
+
+    <!-- MAIN APP -->
+    <main id="app-main" class="panel hidden">
+      <!-- TODAY VIEW -->
+      <section id="view-today" class="view active">
+        <div class="grid">
+          <!-- Identity / greeting -->
+          <section class="card">
+            <h2>Today</h2>
+            <p id="identity-line" class="identity-line"></p>
+            <p id="values-line" class="values-line"></p>
+          </section>
+
+          <!-- Tiny habits -->
+          <section class="card">
+            <h3>Today's Tiny Habits</h3>
+            <p class="hint">
+              Even the smallest version counts. Consistency > perfection.
+            </p>
+            <ul id="habits-list" class="habit-list">
+              <!-- Populated by JS -->
+            </ul>
+            <button id="add-habit-btn" class="btn-link">
+              + Add another tiny habit
+            </button>
+          </section>
+
+          <!-- Daily check-in -->
+          <section class="card">
+            <h3>Daily Check-In</h3>
+            <form id="checkin-form">
+              <label class="field">
+                <span>How are you feeling overall today?</span>
+                <select name="mood">
+                  <option value="">Choose one</option>
+                  <option value="1">Very low</option>
+                  <option value="2">Low</option>
+                  <option value="3">Neutral</option>
+                  <option value="4">Good</option>
+                  <option value="5">Really good</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Urges or compulsive pull today?</span>
+                <select name="urge_level">
+                  <option value="">Choose one</option>
+                  <option value="none">None</option>
+                  <option value="mild">Mild</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="strong">Strong</option>
+                </select>
+              </label>
+
+              <label class="field checkbox">
+                <input type="checkbox" name="slip" />
+                <span>I had a slip / relapse today</span>
+              </label>
+
+              <label class="field">
+                <span>Notes (optional – what helped or what was hard?)</span>
+                <textarea
+                  name="notes"
+                  rows="3"
+                  placeholder="E.g. stress at work, lonely evening, a small win you’re proud of..."
+                ></textarea>
+              </label>
+
+              <fieldset class="halt">
+                <legend>HALT check-in</legend>
+                <p class="hint">Hungry, Angry/Anxious, Lonely, Tired all raise risk. Notice & care for yourself.</p>
+                <div class="halt-grid">
+                  <label class="chip">
+                    <input type="checkbox" name="halt_hungry" />
+                    <span>Hungry</span>
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="halt_angry" />
+                    <span>Angry / Anxious</span>
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="halt_lonely" />
+                    <span>Lonely</span>
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="halt_tired" />
+                    <span>Tired</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <button type="submit" class="btn-primary">
+                Save today
+              </button>
+              <p id="checkin-status" class="status-line"></p>
+            </form>
+          </section>
+
+          <!-- Lifestyle mini-checklist -->
+          <section class="card">
+            <h3>Body & Lifestyle Supports</h3>
+            <p class="hint">These make self-control easier: sleep, movement, food, connection.</p>
+            <form id="lifestyle-form">
+              <label class="field checkbox">
+                <input type="checkbox" name="sleep_ok" />
+                <span>I slept roughly enough last night</span>
+              </label>
+              <label class="field checkbox">
+                <input type="checkbox" name="moved_body" />
+                <span>I moved my body today (walk, stretch, workout)</span>
+              </label>
+              <label class="field checkbox">
+                <input type="checkbox" name="ate_ok" />
+                <span>I ate roughly balanced meals</span>
+              </label>
+              <label class="field checkbox">
+                <input type="checkbox" name="connected" />
+                <span>I had at least one real connection with someone</span>
+              </label>
+              <button type="submit" class="btn-secondary">
+                Save lifestyle check
+              </button>
+              <p id="lifestyle-status" class="status-line"></p>
+            </form>
+          </section>
+
+          <!-- Quick journal -->
+          <section class="card">
+            <h3>Quick Reflection</h3>
+            <form id="quick-journal-form">
+              <label class="field">
+                <span>What are you proud of or grateful for today?</span>
+                <textarea
+                  name="entry"
+                  rows="3"
+                  placeholder="Even if today was messy, name at least one small win or mercy."
+                ></textarea>
+              </label>
+              <button type="submit" class="btn-secondary">
+                Save reflection
+              </button>
+              <p id="quick-journal-status" class="status-line"></p>
+            </form>
+          </section>
+        </div>
+      </section>
+
+      <!-- JOURNEYS VIEW (paths & habits) -->
+      <section id="view-journeys" class="view hidden">
+        <section class="card">
+          <h2>Growth Paths</h2>
+          <p class="hint">
+            Your paths are the areas you chose to grow in. You can edit them here and add more tiny habits.
+          </p>
+          <div id="paths-list" class="pill-group multi">
+            <!-- populated by JS -->
+          </div>
+          <hr />
+          <h3>Add / Edit Tiny Habits</h3>
+          <form id="add-habit-form">
+            <label class="field">
+              <span>Habit name (tiny version)</span>
+              <input
+                type="text"
+                name="habit_name"
+                maxlength="120"
+                placeholder="E.g. Write one sentence in my journal"
+                required
+              />
+            </label>
+            <label class="field">
+              <span>Path</span>
+              <select name="habit_path" required>
+                <option value="">Choose a path</option>
+                <option value="body">Body · Health & Energy</option>
+                <option value="mind">Mind · Focus & Calm</option>
+                <option value="heart">Heart · Emotions & Healing</option>
+                <option value="spirit">Spirit · Meaning & Depth</option>
+                <option value="relationships">Relationships & Connection</option>
+                <option value="purpose">Purpose, Work & Study</option>
+              </select>
+            </label>
+            <button type="submit" class="btn-primary">Save habit</button>
+            <p id="add-habit-status" class="status-line"></p>
+          </form>
+        </section>
+      </section>
+
+      <!-- JOURNAL VIEW -->
+      <section id="view-journal" class="view hidden">
+        <section class="card">
+          <h2>Journal</h2>
+          <form id="journal-form">
+            <label class="field">
+              <span>Title (optional)</span>
+              <input type="text" name="title" maxlength="120" />
+            </label>
+            <label class="field">
+              <span>Entry</span>
+              <textarea
+                name="content"
+                rows="6"
+                placeholder="Write freely about your thoughts, urges, victories, fears. This is your space."
+              ></textarea>
+            </label>
+            <button type="submit" class="btn-primary">
+              Save entry
+            </button>
+            <p id="journal-status" class="status-line"></p>
+          </form>
+        </section>
+
+        <section class="card">
+          <h3>Recent entries</h3>
+          <ul id="journal-list" class="journal-list">
+            <!-- populated by JS -->
+          </ul>
+        </section>
+      </section>
+
+      <!-- STATS VIEW -->
+      <section id="view-stats" class="view hidden">
+        <section class="card">
+          <h2>Progress (Big Picture)</h2>
+          <p class="hint">
+            Progress is about trends, not perfection. Slips are data, not doom.
+          </p>
+          <div id="stats-summary" class="stats-summary">
+            <!-- populated by JS -->
+          </div>
+        </section>
+      </section>
+
+      <!-- SETTINGS VIEW -->
+      <section id="view-settings" class="view hidden">
+        <section class="card">
+          <h2>Settings & Safety</h2>
+          <p class="hint">
+            You can update your identity statement, values and focus here.
+          </p>
+          <form id="settings-form">
+            <label class="field">
+              <span>Identity statement</span>
+              <input type="text" name="identity_statement" maxlength="160" />
+            </label>
+            <label class="field">
+              <span>Core values</span>
+              <input type="text" name="values" maxlength="160" />
+            </label>
+            <button type="submit" class="btn-primary">
+              Save profile
+            </button>
+            <p id="settings-status" class="status-line"></p>
+          </form>
+
+          <hr />
+
+          <section>
+            <h3>Safety</h3>
+            <p>
+              This app cannot provide crisis support or replace professional care.
+              If you experience severe depression, suicidal thoughts, or dangerous withdrawal symptoms:
+            </p>
+            <ul class="safety-list">
+              <li>Contact local emergency services.</li>
+              <li>Reach out to a trusted friend or family member.</li>
+              <li>Consider speaking with a doctor, therapist, or spiritual guide you trust.</li>
+            </ul>
+          </section>
+
+          <hr />
+
+          <button id="reset-local-btn" class="btn-danger">
+            Clear local data on this device
+          </button>
+          <p class="hint">
+            This removes your local ID from this browser. Your past entries remain safely in Supabase unless
+            you delete them manually there.
+          </p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <small>
+        Transform Your Life · Built as a gentle, evidence-informed companion for habit change and recovery.
+      </small>
+    </footer>
+  </div>
+
+  <!-- Main app script (ES module) -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
