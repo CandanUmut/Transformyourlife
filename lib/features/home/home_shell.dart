@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../checkin/checkin_screen.dart';
 import '../habits/habits_screen.dart';
 import '../journal/journal_screen.dart';
+import '../learn/learn_screen.dart';
 import '../settings/settings_screen.dart';
 import 'home_screen.dart';
 
@@ -20,6 +21,7 @@ class _HomeShellState extends State<HomeShell> {
     HomeScreen(),
     HabitsScreen(),
     JournalScreen(),
+    LearnScreen(),
     SettingsScreen(),
   ];
 
@@ -31,9 +33,11 @@ class _HomeShellState extends State<HomeShell> {
         selectedIndex: index,
         onDestinationSelected: (value) => setState(() => index = value),
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.checklist), label: 'Habits'),
-          NavigationDestination(icon: Icon(Icons.book_outlined), label: 'Journal'),
+          NavigationDestination(icon: Icon(Icons.home_rounded), label: 'Home'),
+          NavigationDestination(
+              icon: Icon(Icons.checklist_rounded), label: 'Habits'),
+          NavigationDestination(icon: Icon(Icons.menu_book_rounded), label: 'Journal'),
+          NavigationDestination(icon: Icon(Icons.lightbulb_outline), label: 'Learn'),
           NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
         ],
       ),

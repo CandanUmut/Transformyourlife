@@ -7,12 +7,15 @@ import 'package:uuid/uuid.dart';
 import 'app.dart';
 import 'core/config.dart';
 import 'state/app_settings_providers.dart';
+import 'services/notifications_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
   final deviceId = await _ensureDeviceId(prefs);
+  final notifications = NotificationsService();
+  await notifications.initialize();
 
   await Supabase.initialize(
     url: supabaseUrl,
@@ -24,6 +27,7 @@ Future<void> main() async {
       overrides: [
         sharedPreferencesProvider.overrideWithValue(prefs),
         deviceIdProvider.overrideWithValue(deviceId),
+        notificationsServiceProvider.overrideWithValue(notifications),
       ],
       child: const TransformApp(),
     ),
