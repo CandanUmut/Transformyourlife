@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 ThemeData buildAppTheme(TextTheme textTheme) {
-  const primary = Color(0xFF0D3B66);
-  const secondary = Color(0xFF00A9A5);
-  const surface = Color(0xFFF4F7FB);
+  const primary = Color(0xFF4B6BFB);
+  const secondary = Color(0xFF5AC8A6);
+  const surface = Color(0xFFF2F6FF);
+  const card = Colors.white;
 
   final colorScheme = ColorScheme.fromSeed(
     seedColor: primary,
@@ -16,19 +17,34 @@ ThemeData buildAppTheme(TextTheme textTheme) {
   return ThemeData(
     useMaterial3: true,
     colorScheme: colorScheme,
-    textTheme: textTheme,
     scaffoldBackgroundColor: surface,
+    textTheme: textTheme.copyWith(
+      titleLarge: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+      titleMedium: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+      bodyMedium: textTheme.bodyMedium?.copyWith(height: 1.4),
+    ),
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       elevation: 0,
+      backgroundColor: surface,
+      foregroundColor: Colors.black,
     ),
     cardTheme: CardTheme(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 0,
-      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      elevation: 1,
+      shadowColor: Colors.black12,
+      color: card,
+      surfaceTintColor: card,
     ),
-    inputDecorationTheme: const InputDecorationTheme(
-      border: OutlineInputBorder(),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      shape: StadiumBorder(),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: Colors.white,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
     ),
   );
 }

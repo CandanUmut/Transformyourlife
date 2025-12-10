@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/notifications_service.dart';
+
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
   throw UnimplementedError();
 });
 
 final deviceIdProvider = Provider<String>((ref) {
+  throw UnimplementedError();
+});
+
+final notificationsServiceProvider = Provider<NotificationsService>((ref) {
   throw UnimplementedError();
 });
 

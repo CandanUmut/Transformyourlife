@@ -14,6 +14,7 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = Localizations.of<AppLocalizations>(context, AppLocalizations);
     final notificationEnabled = ref.watch(notificationToggleProvider);
     final reminderTime = ref.watch(reminderTimeProvider);
+    final notifications = ref.watch(notificationsServiceProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n?.t('settings.title') ?? 'Settings')),
@@ -42,6 +43,12 @@ class SettingsScreen extends ConsumerWidget {
               ref
                   .read(sharedPreferencesProvider)
                   .setBool('notifications_enabled', value);
+              notifications.scheduleDailyReminder(
+                time: reminderTime,
+                enabled: value,
+                body: l10n?.t('settings.reminder_body') ??
+                    'Check in with yourself – today is still open.',
+              );
             },
             title: Text(l10n?.t('settings.notifications') ?? 'Daily reminder'),
           ),
@@ -59,6 +66,12 @@ class SettingsScreen extends ConsumerWidget {
                 prefs
                   ..setInt('reminder_hour', time.hour)
                   ..setInt('reminder_minute', time.minute);
+                notifications.scheduleDailyReminder(
+                  time: time,
+                  enabled: notificationEnabled,
+                  body: l10n?.t('settings.reminder_body') ??
+                      'Check in with yourself – today is still open.',
+                );
               }
             },
           ),
